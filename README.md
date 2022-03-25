@@ -1,4 +1,4 @@
-# Predict SageMaker Training Resource Consumption using Canary Training to enable Data-Driven Selection of Training Instances
+# Predict SageMaker Training Resource Consumption using Canary Training to Enable Data-Driven Selection of Training Instances
 
 Model training often requires disparate amounts of training resources. [Amazon SageMaker](https://aws.amazon.com/pm/sagemaker) provides a large number of choices in compute hardware resources available to users, include many different types of GPU and CPU based training instances. However, knowing the resource requirements of the training job in advance can be challenging. For example, Data Scientists may ask the following questions:
 
@@ -9,9 +9,9 @@ Model training often requires disparate amounts of training resources. [Amazon S
 
 The `canary_training` library allows Amazon SageMaker users to forecaset RAM/CPU/GPU RAM/GPU and training time for SageMaker single instance training job given training instances that the user selects. We refer to these five metrics in aggregate as `Consumed resources`. This information in turn can be used by data scientists to suggest whether the specific instance type will work for an ML job, or if perhaps a different instance is needed. 
 
-This repository explores how to use the `canary training` library to predict SageMaker resource consumption (CPU usage, RAM, Training Time, GPU Usage, and GPU memory) for  large training jobs. Please note this library is  in beta and  **we may introduce breaking changes in the future**.
+This repository explores how to use the `canary_training` library to predict SageMaker resource consumption (CPU usage, RAM, Training Time, GPU Usage, and GPU memory) for  large training jobs. Please note this library is  in beta and  **we may introduce breaking changes in the future**.
 
-`canary training` works by creating many small training jobs on small percentages of the data (generally, 1,2 and 3 percent). Based on the statistics gathered (using the [SageMaker Profiler](https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-profiling-report.html)) it then **extrapolates** the resource consumption for the complete training job.
+`canary_training` works by creating many small training jobs on small percentages of the data (generally, 1,2 and 3 percent). Based on the statistics gathered (using the [SageMaker Profiler](https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-profiling-report.html)) it then **extrapolates** the resource consumption for the complete training job.
 
 
 ## Installation and Use
@@ -39,7 +39,7 @@ After running canary training, the data scientist can inspect two sets of return
 | ----------- | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |
 | Completed      | 348|ml.p2.xlarge	|5.s3://...|canary_training...|.01|26.0|100.0|4.72|100|55.0|
 
-The raw resource consumption data can be used by data scientists for manual inspection of the underlying data, and can in principle be used for generating your own resource consumption forecast.
+The raw resource consumption dataframe can be used by data scientists for manual inspection of the underlying data, and can in principle be used for generating your own resource consumption forecast.
 
 
 
