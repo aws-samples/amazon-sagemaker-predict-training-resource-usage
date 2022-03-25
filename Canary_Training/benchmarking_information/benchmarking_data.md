@@ -2,7 +2,9 @@
 
 # Benchmarking Results
 
-**Disclaimer** These benchmarking results are based on limited testing, and may not be representative of workloads you are working on. We show them merely to demonstrate what we found when using this library in the datasets we tested. **Your mileage will vary depending on your algorithms, data, and a host of other factors!**
+**Disclaimer** 
+
+These benchmarking results are based on limited testing, and may not be representative of workloads you are working on. We show them merely to demonstrate what we found when using this library in the datasets we tested. **Your mileage will vary depending on your algorithms, data, and a host of other factors!**
 
 Please note that if you are re-running the sample notebooks that correspond to these experiments, you may get variance due to the stochasticity of the canary training library. For example, forecasted training time for experiment 1 sometimes was as high as 40,000 seconds, and sometimes as low as 23,000 seconds.
 
@@ -24,23 +26,23 @@ For each of the experiments, we performed 9 canary training jobs in total; using
 
 The results of these are shown below.
 
-![alt text](images/image_1.png)* **FIGURE 1** Predicted (blue) vs. Actual (green) resource consumption is shown for three separate experiments. The X axis is the experiment (Experiment 1, Experiment 2, and Experiment 3) and corresponding instance type the experiment was performed on. The Y axis is the amount of resources consumed (training seconds for training time and percentage for CPU/RAM/GPU). Note that “Actual CPU Utilization“, “Actual Memory Utilization“, “Actual GPU Utilization“ and “Actual GPU Memory Utilization“ is defined as the p99 metric. Note that for GPU and GPU memory utilization, only one experiment is shown, due to the fact that only Experiment 2 utilized a GPU-backed instance. The data used to generate these and other graphs can be found in the appendix.*
+![alt text](images/image_1.png) **FIGURE 1** Predicted (blue) vs. Actual (green) resource consumption is shown for three separate experiments. The X axis is the experiment (Experiment 1, Experiment 2, and Experiment 3) and corresponding instance type the experiment was performed on. The Y axis is the amount of resources consumed (training seconds for training time and percentage for CPU/RAM/GPU). Note that “Actual CPU Utilization“, “Actual Memory Utilization“, “Actual GPU Utilization“ and “Actual GPU Memory Utilization“ is defined as the p99 metric. Note that for GPU and GPU memory utilization, only one experiment is shown, due to the fact that only Experiment 2 utilized a GPU-backed instance. The data used to generate these and other graphs can be found in the appendix.*
 
 
 Overall, predicted resource consumption was at least within an order of magnitude of true consumption use. Figure 2A shows that the predicted training time for Experiment 1 (38454 seconds) was 25.0% larger than the true training time (30770). The worst forecast (fig. 1C) was for memory consumption for Experiment 2, where the predicted RAM consumption (24.7%) was more than 6 times greater than the true value of 3.99%.
 
 
-# Experiment 4: Distributed Training
+# Experiment 4: Parallel Training
 
 
 Many use cases for long training jobs rely on distributed training across multiple instances. In order to test whether canary training could be used in the context of distributed training using data parallelism, we repeated Experiment 1 above, but compared the results of the ml.m5.24xlarge to a data distributed training job that takes advantage of 6 ml.m5.4xlarge. Note that 6 ml.m5.4xlarge instances together have the **same number of CPU and amount of RAM** as a single ml.m5.24xlarge (96 vCPU and 384 GB RAM). Thus, this experiment is meant to mimic a typical machine learning training use-case where the data scientist knows that their dataset requires a large amount of RAM and is unsure of whether they should leverage distributed training or single instance training. For this experiment , we used the [ShardedbyS3Key](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_S3DataSource.html) parameter in the SageMaker Estimator.
 
 As in the first set of experiments, the canary training was performed on a maximum of 3% of the partitions, which for this dataset corresponded to 4 partitions (.03 × 132 = 3.96). Because 4 files cannot be evenly distributed across 6 instances, we instead perform the canary training on a single ml.m5.4xlarge instance, and then divide all of the resulting forecasts by 6. The result of this experiment is shown below.
 
-![alt text](images/image_2.png)* **FIGURE 2** These graphs show predicted (blue) vs. actual (green) resource consumption for a distributed training experiment. Experiment 1 is distributed over 6 ml.m5.4xlarge, their prediction results are simply the result of dividing the results of Experiment 2 (1x ml.m5.4xlarge) by 6. For Experiment 1, no green bars are shown, since the training job failed with an out-of-memory error.*
+![alt text](images/image_2.png) **FIGURE 2** These graphs show predicted (blue) vs. actual (green) resource consumption for a distributed training experiment. Experiment 1 is distributed over 6 ml.m5.4xlarge, their prediction results are simply the result of dividing the results of Experiment 2 (1x ml.m5.4xlarge) by 6. For Experiment 1, no green bars are shown, since the training job failed with an out-of-memory error.*
 
 
-The results of this experiment are that overall, resource consumption is within an order of magnitude of the true values. For example, training time for the distributed job (Figure 3A) (3609) has an error of 30.27% compared to the true value (5176). Memory usage is predicted more accurately, with the predicted value of 71.013 having an error of only 7.14% compared to 76.47. Some of these inaccuracies may be a result of loss of linear scaling when [training data parallel models]( https://docs.aws.amazon.com/sagemaker/latest/dg/data- parallel.html).
+The results of this experiment are that overall, resource consumption prediction is within an order of magnitude of the true values. For example, training time for the distributed job (Figure 3A) (3609) has an error of 30.27% compared to the true value (5176). Memory usage is predicted more accurately, with the predicted value of 71.013 having an error of only 7.14% compared to 76.47. Some of these inaccuracies may be a result of loss of linear scaling when [training data parallel models]( https://docs.aws.amazon.com/sagemaker/latest/dg/data- parallel.html).
 
 We also compared the predicted vs. actual results for training this model on a single ml.m5.4xlarge instance. Although the canary training finished successfully, one key result was that the predicted memory usage was a memory usage of 426% on the single instance, as shown in the blue bar of the figure. This would be expected to result in an out of memory error; an out-of-memory error did in fact result when trying to train on the entire dataset using a single ml.m5.4xlarge.
 
@@ -60,7 +62,8 @@ As shown in this table, canary training correctly forecasts that 6 ml.m5.4xlarge
 
 # Conclusion and Caution
 
-These results may or not be representative of your own work and do not gaurentee that you will achieve similair performance.
+
+These results may or not be representative of your own work and do not guarantee that you will achieve similair performance.
 
 
 
