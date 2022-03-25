@@ -16,7 +16,7 @@ This repository explores how to use the `canary_training` library to predict Sag
 
 ## Installation and Use
 
-You can install the library directly from github using pip `pip`:
+You can install the library directly from github using `pip`:
 
 `pip install git+https://github.com/aws-samples/amazon-sagemaker-predict-training-resource-usage.git#subdirectory=Canary_Training/canary_training`
 
@@ -109,7 +109,7 @@ Furthermore, the `canary_training` library assumes that you have split your data
 
 **When Should I NOT use this library?**
 
-If you have a dataset that is fairly small or a training algorithm that is simple, and training is not anticipated to take very long (~ minutes or a few hours) then running canary training may be less efficient that simply running training on a large SageMaker Training instance. **Furthermore the canary_training library will not work if your training data is not partitioned or is partitioned into less than 10 partitions.**
+If you have a dataset that is fairly small or a training algorithm that is simple, and training is not anticipated to take very long (~ minutes or a few hours) then running canary training may be less efficient that simply running training on a large SageMaker Training instance. **Furthermore, the canary_training library will not work if your training data is not partitioned or is partitioned into less than 10 partitions.**
 
 **Why did you call this library "canary" training?**
 
