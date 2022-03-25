@@ -1,0 +1,9 @@
+setup.py
+canary_training/__init__.py
+canary_training/canary_training.py
+canary_training/instance_data_unnormalized.csv
+canary_training/instance_price_info.csv
+canary_training.egg-info/PKG-INFO
+canary_training.egg-info/SOURCES.txt
+canary_training.egg-info/dependency_links.txt
+canary_training.egg-info/top_level.txt
