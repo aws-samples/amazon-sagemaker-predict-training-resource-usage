@@ -10,7 +10,7 @@ Model training often requires disparate amounts of training resources. [Amazon S
 The `canary_training` library allows Amazon SageMaker users to forecaset RAM/CPU/GPU RAM/GPU and training time for SageMaker single instance training jobs. We refer to these five metrics in aggregate as `Consumed resources`. This information in turn can be used by data scientists to suggest whether a specific instance type will work for an ML job, or if perhaps a different instance is needed. 
 
 
-This repository explores how to use `canary training` library to predict SageMaker resource consumption (CPU usage, RAM, Training Time, GPU Usage, and GPU memory) for very large training jobs. Please note this library is still in beta and  **we may introduce breaking changes in the future**.
+This repository explores how to use the `canary training` library to predict SageMaker resource consumption (CPU usage, RAM, Training Time, GPU Usage, and GPU memory) for  large training jobs. Please note this library is  in beta and  **we may introduce breaking changes in the future**.
 
 `canary training` works by creating many small training jobs on small percentages of the data (generally, 1,2 and 3 percent). Based on the statistics gathered (using the [SageMaker Profiler](https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-profiling-report.html)) it then **extrapolates** the resource consumption for the complete training job.
 
@@ -48,7 +48,7 @@ The raw resource consumption data can be used by data scientists for manual insp
 
 
 ## How does the Canary Training library work?
-The canary_training library works by creating smaller-scale training jobs, termed `Canary Training Jobs`, collects the job metrics using the [SageMaker Profiler](https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-profiling-report.html) and performs **extrapolations to predict the Consumed Resources for the entire Training Job**. 
+The canary_training library works by creating smaller-scale training jobs, termed `Canary Training Jobs`, collects the job metrics using the [SageMaker Profiler](https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-profiling-report.html) and performs **extrapolations to predict the Consumed Resources for the entire Training Job**. A schematic of this is shown below:
 
 
 ![alt text](images/image_1.png)
@@ -66,13 +66,13 @@ No. This library is an open-source library that predicts SageMaker training reso
 
 **Will this library automatically tell me the best Training Instance for my job?**
 
-No. This library will provide information and forecasts of the training instance(s) you choose to test for training. Data Scientists can use this information to make data-driven decisions about what training instance(s) is best for their use case.  
+No. This library will provide information and forecasts of resource consumption fo the training instance(s) you choose to test for training. Data Scientists can use this information to make data-driven decisions about what training instance(s) is best for their use case.  
 
 **What do I need to get started with this library?**
 
 The major assumptions are:
  1. Your data is stored in S3
- 2. Your data is partitioned into at least 10 partitions; we recommend at least 100 partitions
+ 2. Your data is partitioned into at least 10 partitions; we recommend at least 100 partitions.
  3. You are using a SageMaker Estimator.
 
 In addition, in order for forecasts to be a accurate, the library assumes **approximate** `O(n)` computational complexity, where n is the number of datapoints. If your algorithm has significant deviations from this, you can still leverage `canary_training` to derive compute resources for the canary_training jobs, but you may not want to rely exclusivley on the forecast values. 
@@ -87,7 +87,7 @@ However, we have done one experiment which indicated that using canary training 
 
 We have tested this library using the SageMaker built-in XGboost algorithm and a custom script for training BERT; see `Canary_Training/benchmarking_information/benchmarking_data.md` for more information.  However, we have not exhaustivley tested this library, and your results may differ very much from ours, depending on your data, algorithm, and many other factors.
 
-**Do you provide gaurentees for how well this library forecasts training times and other resource usage?**
+**Do you provide guarantees for how well this library forecasts training times and other resource usage?**
 
 No. We cannot not provide any guarantees for the performance of the library.
 
@@ -97,11 +97,11 @@ We have confirmed that the canary training libary works in SageMaker Studio and 
 
 **Will using canary training cost money?**
 
-Yes. Because canary training launches SageMaker training jobs, you will be billed for the time those training jobs last. It is recommended that you configure the partitions of the data or the percentage of data being leveraged in the canary training jobs to avoid excessive cost.
+Yes. Because canary training launches SageMaker Training jobs, you will be billed for the time those training jobs last. It is recommended that you configure the partitions of the data or the percentage of data being leveraged in the canary training jobs to avoid excessive cost.
 
 **Is this library related to the SageMaker Inference Recommender?**
 
-No. The [Inference Recommencer](https://aws.amazon.com/about-aws/whats-new/2021/12/amazon-sagemaker-inference-recommender/) is a SageMaker built-in feature for selecting the best available compute instance for **deploying** SageMaker models. The `canary_training` library is an open-source library for  forecasting compute resources for SageMaker **Training** jobs; and in turn enable data scientists select an optimal training instance.
+No. The [Inference Recommencer](https://aws.amazon.com/about-aws/whats-new/2021/12/amazon-sagemaker-inference-recommender/) is a SageMaker built-in feature for selecting the best available compute instance for **deploying** SageMaker models. The `canary_training` library is an open-source library for  forecasting compute resources for SageMaker **Training** jobs; and in turn enables data scientists select an optimal training instance.
 
 **How do I use this library, what are the major points to keep in mind? What are the assumptions?**
 
@@ -113,9 +113,12 @@ Furthermore, the `canary_training` library assumes that you have split your data
 
 **When Should I NOT use this library?**
 
-If you have a dataset that is fairly small or a training algorithm that is simple, and training is not anticipated to take very long (~ minutes or a few hours) then running canary training may be less efficient that simply running training on a large SageMaker Training instance. 
+If you have a dataset that is fairly small or a training algorithm that is simple, and training is not anticipated to take very long (~ minutes or a few hours) then running canary training may be less efficient that simply running training on a large SageMaker Training instance. **Furthermore the canary_training library will not work if your training data is not partitioned or is partitioned into less than 10 partitions.**
 
-**I have other questions, comments, have a bug report or there is something else I want to communicate with the maintainer of the library**
+**Why did you call this library "canary" training?**
+The term "canary training" is an allusion to [canary deployment](https://wa.aws.amazon.com/wellarchitected/2020-07-02T19-33-23/wat.concept.canary-deployment.en.html).
+
+**I have other questions, comments, have a bug report or there is something else I want to communicate with the maintainer of the library.**
 
 We appreciate your comments very much! The easiest way to communicate regarding anything about the library is to use the Github Issues tab. Please bear with us if open issues take longer than expected to address or are closed.
 
