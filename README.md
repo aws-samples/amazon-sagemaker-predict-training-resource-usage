@@ -116,6 +116,7 @@ Furthermore, the `canary_training` library assumes that you have split your data
 If you have a dataset that is fairly small or a training algorithm that is simple, and training is not anticipated to take very long (~ minutes or a few hours) then running canary training may be less efficient that simply running training on a large SageMaker Training instance. **Furthermore the canary_training library will not work if your training data is not partitioned or is partitioned into less than 10 partitions.**
 
 **Why did you call this library "canary" training?**
+
 The term "canary training" is an allusion to [canary deployment](https://wa.aws.amazon.com/wellarchitected/2020-07-02T19-33-23/wat.concept.canary-deployment.en.html).
 
 **I have other questions, comments, have a bug report or there is something else I want to communicate with the maintainer of the library.**
