@@ -37,7 +37,7 @@ After running canary training, the data scientist can inspect two sets of return
 
 | TrainingJobStatus    | TrainingTimeInSeconds | InstanceType| ManifestLocation| job_name|PercentageDataTrainedOn|CPUUtilization|OWaitPercentage|MemoryUsedPercent|GPUUtilization|GPUMemoryUtilization
 | ----------- | ----------- | ----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |----------- |
-| Completed      | 348|ml.p2.xlarge	|5.s3://...|canary_training...|.01|26.0|100.0|4.72|100|55.0|
+| Completed      | 348|ml.p2.xlarge	|s3://...|canary_training...|.01|26.0|100.0|4.72|100|55.0|
 
 The raw resource consumption dataframe can be used by data scientists for manual inspection of the underlying data, and can in principle be used for generating your own resource consumption forecast.
 
