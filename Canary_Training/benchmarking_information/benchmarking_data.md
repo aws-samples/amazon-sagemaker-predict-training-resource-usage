@@ -2,11 +2,13 @@
 
 # Benchmarking Results
 
-**Disclaimer** 
+## **Disclaimer** 
 
 These benchmarking results are based on limited testing, and may not be representative of workloads you are working on. We show them merely to demonstrate what we found when using this library in the datasets we tested. **Your mileage will vary depending on your algorithms, data, and a host of other factors!**
 
-Please note that if you are re-running the sample notebooks that correspond to these experiments, you may get variance due to the stochasticity of the canary training library. For example, forecasted training time for experiment 1 sometimes was as high as 40,000 seconds, and sometimes as low as 23,000 seconds.
+Please note that if you are re-running the sample notebooks that correspond to these experiments, you will likely get different results due to the stochasticity of the canary training library. For example, forecasted training time for experiment 1 sometimes was as high as 40,000 seconds, and sometimes as low as 23,000 seconds. 
+
+Similarly, the results  included in the sample quick start notebooks are not precisely the same as the ones shown in the plots below for the same reason.  
 
 
 
